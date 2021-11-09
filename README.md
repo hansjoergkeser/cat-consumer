@@ -30,6 +30,6 @@ mvn spring-boot:run
 > <br>
 > Service runs on localhost:9090
 > <br>
-> (see or configure `server.port` in application.properties)
+> (see or configure `server.port` in [application.properties](src/main/resources/application.properties))
 > <br></br>
 > http://localhost:9090/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/
