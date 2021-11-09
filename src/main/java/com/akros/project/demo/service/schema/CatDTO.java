@@ -5,19 +5,24 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Note: The consumer is not interested in all data of the provider's tasks. The consumer's tasks only
- * include id, title and content, but not the additional tag and the createdAt data from the provider's tasks.
- * Therefore, when specifying pacts for the provider, this consumer will completely ignore those additional fields,
- * because those are not his business.
+ * Note: The consumer is not interested in all data of the provider's response.
+ * The consumer client does e.g. not need/parse color or character.
+ * Therefore, when specifying pacts for the provider, this consumer will completely ignore those additional fields
  */
 @Data
 @NoArgsConstructor
 public class CatDTO {
 
     @NonNull
-    private String skillId;
+    private String id;
 
     @NonNull
-    private String skillName;
+    private String name;
+
+    @NonNull
+    private String gender;
+
+    @NonNull
+    private String price;
 
 }

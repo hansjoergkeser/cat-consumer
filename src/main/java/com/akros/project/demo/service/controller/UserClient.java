@@ -7,7 +7,6 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
@@ -44,19 +43,9 @@ public class UserClient {
         });
     }
 
-    public CatDTO getCatById(String id) {
-        return webClient.get().
-                uri("/getUser/{id}", id).
-                retrieve().
-                bodyToMono(CatDTO.class).
-                onErrorMap(WebClientResponseException.BadRequest.class,
-                        e -> new Exception("BadRequest on user API.", e)).
-                block();
-    }
-
     public List<CatDTO> getAllCats() {
         try {
-            CatDTO[] userArray = webClient.get().uri("/getAllUsers").retrieve().bodyToMono(CatDTO[].class).block();
+            CatDTO[] userArray = webClient.get().uri("/getCats").retrieve().bodyToMono(CatDTO[].class).block();
 
             if (userArray != null) {
                 return asList(userArray);
@@ -66,5 +55,15 @@ public class UserClient {
         }
         return emptyList();
     }
+
+//    public CatDTO getCatById(String id) {
+//        return webClient.get().
+//                uri("/{id}", id).
+//                retrieve().
+//                bodyToMono(CatDTO.class).
+//                onErrorMap(WebClientResponseException.BadRequest.class,
+//                        e -> new Exception("BadRequest on user API.", e)).
+//                block();
+//    }
 
 }
