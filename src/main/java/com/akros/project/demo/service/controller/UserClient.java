@@ -3,10 +3,14 @@ package com.akros.project.demo.service.controller;
 import com.akros.project.demo.service.schema.CatDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
@@ -56,14 +60,38 @@ public class UserClient {
         return emptyList();
     }
 
-//    public CatDTO getCatById(String id) {
-//        return webClient.get().
-//                uri("/{id}", id).
-//                retrieve().
-//                bodyToMono(CatDTO.class).
-//                onErrorMap(WebClientResponseException.BadRequest.class,
-//                        e -> new Exception("BadRequest on user API.", e)).
-//                block();
-//    }
+    public CatDTO getCatByName(String name) {
+        return webClient.get().
+                uri("/get/{catName}", name).
+                retrieve().
+                bodyToMono(CatDTO.class).
+                onErrorMap(WebClientResponseException.BadRequest.class,
+                        e -> new Exception("BadRequest on cat API.", e)).
+                block();
+    }
+
+    public CatDTO createCat(String name,
+                            String color,
+                            String character,
+                            String gender,
+                            int price) {
+
+        LinkedMultiValueMap<String, java.io.Serializable> map = new LinkedMultiValueMap<>();
+        map.add("name", name);
+        map.add("color ", color);
+        map.add("character ", character);
+        map.add("gender ", gender);
+        map.add("price ", price);
+
+        return webClient.post().
+                uri("/post").
+                contentType(MediaType.APPLICATION_JSON).
+                body(BodyInserters.fromMultipartData(map)).
+                retrieve().
+                bodyToMono(CatDTO.class).
+                onErrorMap(WebClientResponseException.BadRequest.class,
+                        e -> new Exception("BadRequest on cat API.", e)).
+                block();
+    }
 
 }
