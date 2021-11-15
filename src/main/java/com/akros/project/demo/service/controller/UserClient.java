@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -70,28 +68,18 @@ public class UserClient {
                 block();
     }
 
-    public CatDTO createCat(String name,
-                            String color,
-                            String character,
-                            String gender,
-                            int price) {
+    public CatDTO createCat(CatDTO catDTO) {
 
-        LinkedMultiValueMap<String, java.io.Serializable> map = new LinkedMultiValueMap<>();
-        map.add("name", name);
-        map.add("color ", color);
-        map.add("character ", character);
-        map.add("gender ", gender);
-        map.add("price ", price);
-
-        return webClient.post().
-                uri("/post").
-                contentType(MediaType.APPLICATION_JSON).
-                body(BodyInserters.fromMultipartData(map)).
-                retrieve().
-                bodyToMono(CatDTO.class).
-                onErrorMap(WebClientResponseException.BadRequest.class,
-                        e -> new Exception("BadRequest on cat API.", e)).
-                block();
+        return webClient.post()
+                .uri("/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                // https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-client-body
+                .bodyValue(catDTO)
+                .retrieve()
+                .bodyToMono(CatDTO.class)
+                .onErrorMap(WebClientResponseException.BadRequest.class,
+                        e -> new Exception("BadRequest on cat API.", e))
+                .block();
     }
 
 }

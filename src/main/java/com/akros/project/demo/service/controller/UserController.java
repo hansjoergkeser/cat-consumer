@@ -3,13 +3,9 @@ package com.akros.project.demo.service.controller;
 import com.akros.project.demo.service.schema.CatDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/user/cat")
@@ -30,9 +26,18 @@ public class UserController {
     }
 
     // WIP
-//    @PostMapping("/createCat")
-//    public CatDTO createCat() {
-//        return userClient.createCat();
-//    }
+    @PostMapping("/createCat")
+    public CatDTO createCat() {
+        CatDTO catDTO = new CatDTO(
+                null,
+                "Hajo-gato",
+                "schwarzo",
+                "schnurro",
+                "malo",
+                666
+        );
+
+        return userClient.createCat(catDTO);
+    }
 
 }
