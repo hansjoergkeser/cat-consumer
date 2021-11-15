@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @Disabled("local/manual testing")
 @SpringBootTest
 public class CatApiTests {
@@ -16,16 +18,22 @@ public class CatApiTests {
 
     @Test
     void testCreateCat() {
-        userClient.createCat(
+        String expectedName = "Hajo-gato";
+
+        CatDTO responseDTO = userClient.createCat(
                 new CatDTO(
                         null,
-                        "Hajo-gato",
+                        expectedName,
                         "schwarzo",
                         "schnurro",
                         "malo",
                         666
                 )
         );
+
+        assertNotNull(responseDTO, "Should have received response body with cat dto created by provider service");
+        assertFalse(responseDTO.getId().isEmpty(), "Created cat should have received an auto generated id.");
+        assertEquals(expectedName, responseDTO.getName(), "Name was not saved/created correctly");
     }
 
 }
