@@ -1,4 +1,4 @@
-package com.akros.project.demo.service;
+package com.akros.project.demo.service.integration;
 
 import com.akros.project.demo.service.controller.UserClient;
 import com.akros.project.demo.service.schema.CatDTO;
@@ -32,7 +32,7 @@ public class CatApiTests {
         );
 
         assertNotNull(responseDTO, "Should have received response body with cat dto created by provider service");
-        assertFalse(responseDTO.getId().isEmpty(), "Created cat should have received an auto generated id.");
+        assertTrue(responseDTO.getId() > Long.MIN_VALUE, "Created cat should have received an auto generated id.");
         assertEquals(expectedName, responseDTO.getName(), "Name was not saved/created correctly");
     }
 

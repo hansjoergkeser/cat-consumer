@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Value
 public class CatDTO {
 
-    String id;
+    Long id;
 
     @NonNull
     String name;

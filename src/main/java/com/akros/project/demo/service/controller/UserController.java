@@ -1,8 +1,10 @@
 package com.akros.project.demo.service.controller;
 
 import com.akros.project.demo.service.schema.CatDTO;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,19 +27,9 @@ public class UserController {
         return userClient.getCatByName(catName);
     }
 
-    // WIP
     @PostMapping("/createCat")
-    public CatDTO createCat() {
-        CatDTO catDTO = new CatDTO(
-                null,
-                "Hajo-gato",
-                "schwarzo",
-                "schnurro",
-                "malo",
-                666
-        );
-
-        return userClient.createCat(catDTO);
+    public CatDTO createCat(@RequestBody RequestEntity<CatDTO> data) {
+        return userClient.createCat(data.getBody());
     }
 
 }
