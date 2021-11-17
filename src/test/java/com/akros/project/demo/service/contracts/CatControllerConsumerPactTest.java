@@ -28,9 +28,9 @@ import static org.junit.jupiter.api.Assertions.*;
         // overrides default spring property in application.properties
         // to avoid conflict with the "real" provider service on localhost http://localhost:8080/cats
         // Not that /cats is application context, not part of the path
-        "user.service.url=http://localhost:8083",
+        "user.service.url=http://localhost:8083"
         // enable if test fails to get more details in log
-        "logging.level.au.com.dius.pact=DEBUG"
+//        ,"logging.level.au.com.dius.pact=DEBUG"
 })
 @ExtendWith(PactConsumerTestExt.class)
 public class CatControllerConsumerPactTest {
